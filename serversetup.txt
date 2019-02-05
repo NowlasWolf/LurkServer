@@ -1,0 +1,315 @@
+GAME
+Welcome! You are a space janitor aboard the grand ship "The Debree" and had just started a debatebly well earned nap when a blast awakened you. Alarms start sounding off. Uh oh. Allocate your points and escape!
+100
+1000
+
+ROOM
+Janitor Closet
+You are surrounded with your tools of the trade. A garbage disintegrating ray, super absorbant carbon nanotube towels, and uhh... brooms.
+10
+Main Hall
+#
+
+ROOM
+Main Hall
+The main hall has the usual blinky lights and screens dotted about the walls. There is an enterance to your humble abode and exits on either side to the bridge and the lab.
+11
+Janitor Closet
+Lab
+Bridge
+#
+
+ROOM
+Lab
+There are plenty of nerd things here. A plethora of shiny buttons call out your name to press.
+12
+Main Hall
+Bathrooms
+#
+
+ROOM
+Bathrooms
+Why even go in here? Were you not running for your life?
+13
+Lab
+#
+
+ROOM
+Bridge
+The beautiful bridge of The Debree. Seems all the crew here is either gone or is currently the new wall decoratrion.
+14
+Main Hall
+Elevator
+#
+
+ROOM
+Elevator
+A thing that goes up and down. You are quite familiar with it due to how many can't handle said motion.
+15
+Bridge
+Maintenance Hall
+Crew Livings
+#
+
+ROOM
+Maintenance Hall
+Plenty of suspiciously leaky tubes and access panels. Not much to be seen here.
+16
+Elevator
+#
+
+ROOM
+Crew Livings
+Home to everybody on the Debree. Well everybody except you. They claim there was no more room and just had you sleep in the Janitor Closet. Luckily for you the invaders didn't think to clear out the unsuspecting Janitor Closet.
+17
+Elevator
+Hanger
+#
+
+ROOM
+Hanger
+The hanger seems to be full of ships that you don't recognise. Honestly they are little ugly. Who makes their whole ship green?
+18
+Crew Livings
+Emergency Escape
+#
+
+ROOM
+Emergency Escape
+This room is full of escape pods. A few seem to be missing already.
+19
+Hanger
+Escape Pod 3
+#
+
+ROOM
+Escape Pod 3
+A somewhat cramped but livable craft for the primary purpose of getting the heck out of here.
+20
+Emergency Escape
+Space
+#
+
+ROOM
+Space
+Well it's dark and not stuff...
+21
+More Space
+Even More Space
+#
+
+ROOM
+More Space
+When you asked your superiors for more space this was not what you asked for
+22
+Space
+Even More Space
+#
+ROOM
+Even More Space
+They should really put music on these escape crafts to pass the time
+23
+Space
+More Space
+Brown Planet
+#
+
+ROOM
+Brown Planet
+A dust ball that may or may not be inhabitable. Seems like you have no choice but to land
+24
+Wreckage
+#
+
+ROOM
+Wreckage
+Well because you put on your "Super Dynamic G-Diffusing Seat Belt" tm. you survived the skillful landing
+25
+North Desert
+East Desert
+South Desert
+West Desert
+#
+
+ROOM
+North Desert
+Hey look! Sand!
+26
+Wreckage
+#
+
+ROOM
+East Desert
+How about that sand. Hey look! A rock!
+27
+Wreckage
+Rock Formation
+#
+
+ROOM
+South Desert
+Did you know sand is here? Because it is
+28
+Wreckage
+Cave
+#
+
+ROOM
+West Desert
+The taste of sand is in the air, and on the ground, and in your mouth, yuk!
+29
+Wreckage
+#
+
+ROOM
+Cave
+Sweet sweet shade. Did you hear a noise?
+30
+South Desert
+#
+
+ROOM
+Rock Formation
+Various large formations of rock and stone. Quite a sight to behold. Trust Me!
+31
+East Desert
+Gate
+#
+
+ROOM
+Gate
+Man made gate to what looks like a town
+32
+Rock Formation
+Sandy Buttes
+#
+
+ROOM
+Sandy Buttes
+The place smells as it ironically sounds
+33
+Gate
+Bar
+#
+
+ROOM
+Bar
+Smells even worse but hey time to drink your worries away!
+34
+Sandy Buttes
+#
+
+ENEMY
+Space Rat
+A rodent bigger than most
+HEALTH 30
+ATK 10
+DEF 10
+REG 10
+GOLD 10
+RESPAWN 1
+ROOMS
+Maintenance Hall
+#
+
+ENEMY
+Alien Guard
+A creepy looking guy in a red suit and holding a large gun that probably has the word death in its name
+HEALTH 50
+ATK 30
+DEF 20
+REG 10
+GOLD 20
+RESPAWN 3
+ROOMS
+Lab
+Bridge
+Maintenance Hall
+Crew Livings
+Emergency Escape
+Hanger
+#
+
+ENEMY
+Alien Commander
+A tall dude that is spouting incomprehensible orders to the others. Reminds you of the captain
+HEALTH 70
+ATK 40
+DEF 15
+REG 10
+GOLD 50
+RESPAWN 3
+ROOMS
+Bridge
+Hanger
+#
+
+ENEMY
+Experiment Gone Wrong
+Some slimy thing with an eye here and an ear there. Gross
+HEALTH 30
+ATK 20
+DEF 40
+REG 40
+GOLD 1
+RESPAWN 3
+ROOMS
+Lab
+Bathrooms
+#
+
+ENEMY
+Angry Drunk
+He is speaking in a language you can't understand. Oh wait nevermind he is just really slurring those words.
+HEALTH 40
+ATK 30
+DEF 10
+REG 50
+GOLD 35
+RESPAWN 5
+ROOMS
+Bar
+#
+
+ENEMY
+Barcore
+Large beast with a hobby of going clubbing. The kind where he uses his club on your frail body.
+HEALTH 70
+ATK 50
+DEF 40
+REG 20
+GOLD 50
+RESPAWN 30
+ROOMS
+Cave
+#
+
+ENEMY
+Sand Worm
+A creepy worm that tunnels through the sand looking for its next meal. You are afraid to see the menu
+HEALTH 20
+ATK 30
+DEF 10
+REG 10
+GOLD 10
+RESPAWN 3
+ROOMS
+North Desert
+West Desert
+#
+
+ENEMY
+Assassin Bot
+Large bot that looks like it gets to a lot of choppers. Maybe it's best to avoid this one
+HEALTH 80
+ATK 80
+DEF 50
+REG 40
+GOLD 150
+RESPAWN 60
+ROOMS
+Rock Formation
+#
+
+
+

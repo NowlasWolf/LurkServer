@@ -63,8 +63,8 @@ void* handle_client(void* param){
 	bool taken = false;
 	struct version tempver;
 	// Interaction with the client starts here
-	lurk_game(cskt,0,&servergame);
 	lurk_version(cskt,0,&serverversion);
+	lurk_game(cskt,0,&servergame);
 	Client *client;
 	stufflock.lock();
 	//initial loop for entering game

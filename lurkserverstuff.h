@@ -93,6 +93,8 @@ class Entity{
 class Client : public Entity{
 	private:
 		int socket;
+		struct version cversion;
+		Room *currentroom;
 	public:
 		Client(){}
 		void setDefaultValues();
@@ -101,11 +103,14 @@ class Client : public Entity{
 		void setAccept(bool);
 		void setCRoom(Room*);
 		void setCRoomNum(int);
+		void setVersion(version);
 		
 		int getSocket();
 		bool getAccept();
 		bool getActive();
 		int getVPlace();
+		Room* getCRoom();
+		version getVersion();
 		
 		
 		void Damage(int) override;
@@ -155,7 +160,7 @@ class Room{
 		void setDescl(int);
 		void addConnection(Room*);
 		void addPlayer(Client*);
-		void removePlayer(Client*);
+		void removePlayer(Client*,Room*);
 		void addEnemy(Enemy*);
 		void removeEnemy(Enemy*);
 		

@@ -27,6 +27,7 @@ using namespace std;
 
 int skt;
 struct game servergame;
+struct version serverversion;
 
 mutex stufflock;
 
@@ -60,8 +61,10 @@ void* handle_client(void* param){
 	bool ready = false;
 	bool reprised = false;
 	bool taken = false;
+	struct version tempver;
 	// Interaction with the client starts here
 	lurk_game(cskt,0,&servergame);
+	lurk_version(cskt,0,&serverversion);
 	Client *client;
 	stufflock.lock();
 	//initial loop for entering game
@@ -79,7 +82,11 @@ void* handle_client(void* param){
 		}
 		//Active: tempc.flags = setbit(4,a,tempc.flags);
 		//Accept: tempc.flags = setbit(3,a,tempc.flags);
-		//cout << "Got " << type << " from person" << endl; 
+		//cout << "Got " << type << " from person" << endl;
+		if(type == 14){
+			lurk_version(cskt,1,&tempver);
+			cout << "Client version is: " << tempver.majorrev << "." << tempver.minorrev << endl;
+		}
 		if(type == 10){
 			//TODO: Make things temperary until start command is issued, then setroom and start. New people not started are automatically made into a client object...
 			taken = false;
@@ -91,6 +98,7 @@ void* handle_client(void* param){
 						cout << "Found matching name with bits " << itobstr(players[i]->getFlags(),bits) << endl;
 						if(!players[i]->getAccept()){
 							client = players[i];
+							client->setVersion(tempver);
 							client->setSocket(cskt);
 							type = 10;
 							lurk_accept(cskt,0,type);
@@ -122,6 +130,7 @@ void* handle_client(void* param){
 						type = 10;
 						cout << "New player: " << tempc.name << " being made" << endl;
 						client = new Client();
+						client->setVersion(tempver);
 						client->setSocket(cskt);
 						client->setCharStruct(tempc);
 						client->setMaxHealth(100);
@@ -238,8 +247,8 @@ void* handle_client(void* param){
 		else if(type == 6){
 			if(!client->isAlive()){
 				client->revive();
-				client->getCRoom()->removePlayer(client);
-				client->setCRoom(rooms[0]);
+				//client->setCRoom(rooms[0]); Moved to removePlayer()
+				client->getCRoom()->removePlayer(client,rooms[0]);
 				client->getCRoom()->sendRoom(cskt);
 			}else{
 				struct error noconnection;
@@ -290,13 +299,13 @@ void* handle_client(void* param){
 				if(client->getCRoom()->isConnected(roomnum)){
 					for(int i=0; i<rooms.size(); i++){
 						if(roomnum == rooms[i]->getNumber()){
-							client->getCRoom()->removePlayer(client);
-							client->setCRoom(rooms[i]);
-							client->regenerate();
+							//client->setCRoom(rooms[i]); moved to removePlayer()
+							client->getCRoom()->removePlayer(client,rooms[i]); //do move action that removes player -> sets player's current room -> notifies move to other players
+							client->regenerate();//regen as part of move action
 							break;
 						}
 					}
-					client->getCRoom()->sendRoom(cskt);
+					client->getCRoom()->sendRoom(cskt); //send new room info
 				}
 				else{
 					struct error noconnection;
@@ -420,6 +429,12 @@ int main(int argc, char ** argv){
 		printf("Usage:  %s port mapfile\n", argv[0]);
 		return 1;
 	}
+
+	serverversion.majorrev = 2;
+	serverversion.minorrev = 2;
+	serverversion.extl = 0;
+	serverversion.ext[0] = '\0';
+	
 	int u_enemies = 0;
 	int t_enemies = 0; 
 	ifstream setup(argv[2]);

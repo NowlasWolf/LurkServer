@@ -14,7 +14,7 @@ void messageAll(message* a){
 	}
 }
 
-fightStuff fightCalc(fightStuff* f){
+void fightCalc(fightStuff* f){
 	srand(time(NULL));
 	int roll = (rand()%100)+1;
 
@@ -150,11 +150,13 @@ bool Entity::isAlive(){
 }
 
 Item Entity::getItem(char name[32]){
+	Item tempi;
 	for(int i=0; i<inventory.size(); i++){
 		if(!std::strcmp(name,inventory[i].name)){
-			return inventory[i];
+			tempi = inventory[i];
 		}
 	}
+	return tempi;
 }
 
 void Entity::addItem(Item I){
@@ -237,9 +239,12 @@ void Client::setAccept(bool a){
 }
 void Client::setCRoom(Room* r){
 	//std::cout << this->getName() << " going to " << r->getName() << std::endl;
-	r->addPlayer(this);
 	stuff.room = r->getNumber();
+	r->addPlayer(this);
 	currentroom = r;
+}
+void Client::setVersion(version ver){
+	cversion = ver;
 }
 int Client::getSocket(){
 	return socket;
@@ -250,7 +255,12 @@ bool Client::getActive(){
 bool Client::getAccept(){
 	return getbit(3,stuff.flags);
 }
-
+Room* Client::getCRoom(){
+	return currentroom;
+}
+version Client::getVersion(){
+	return cversion;
+}
 
 void Client::Damage(int d){
 	if(d<0){
@@ -511,13 +521,13 @@ void Room::addPlayer(Client* a){
 	//std::cout << a->getName() << " went to " << this->getName() << std::endl;
 	//std::cout << this->getName() << " has " << players.size() << " players" << std::endl;
 	for(int i=0; i<players.size(); i++){
-		if(players[i]->getActive() && !players[i]->isNPC()){
+		if(players[i]->getActive() && !players[i]->isNPC() && players[i] != a){
 			lurk_character(players[i]->getSocket(),0,a->getCharStruct());
 		}
 	}
 	players.push_back(a);
 }
-void Room::removePlayer(Client* a){
+void Room::removePlayer(Client* a, Room* newroom){
 	for(int i=0; i<players.size(); i++){
 		if(players[i] == a){
 			players.erase(players.begin()+i);
@@ -528,6 +538,7 @@ void Room::removePlayer(Client* a){
 			break;
 		}*/
 	}
+	a->setCRoom(newroom);
 	//if(players.size()!=0)players.erase(players.begin()+a->getVPlace());
 	//std::cout << this->getName() << " lost player" << std::endl;
 	//std::cout << this->getName() << " has " << players.size() << " players" << std::endl;
@@ -536,9 +547,16 @@ void Room::removePlayer(Client* a){
 	std::strcpy(leavemsg.msg,a->getName());
 	std::strcat(leavemsg.msg," left the room");
 	for(int i=0; i<players.size(); i++){
-		if(players[i]->getActive() && !players[i]->isNPC()){
-			std::strcpy(leavemsg.rname,players[i]->getName());
-			lurk_message(players[i]->getSocket(),0,&leavemsg);
+		if(players[i]->getActive() && !players[i]->isNPC() && players[i] != a){
+			struct version tempver = players[i]->getVersion();
+			//std::cout << tempver.majorrev << "." << tempver.minorrev << " is the reported version" << std::endl;
+			if(tempver.majorrev >= 2 && tempver.minorrev >= 2){
+				lurk_character(players[i]->getSocket(),0,a->getCharStruct());
+				//std::cout << "sending " << players[i]->getName() << " other character move packet" << std::endl;
+			}else{
+				std::strcpy(leavemsg.rname,players[i]->getName());
+				lurk_message(players[i]->getSocket(),0,&leavemsg);
+			}
 		}
 	}
 }

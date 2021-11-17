@@ -31,7 +31,7 @@ char* itobstr(int data, char *out){
 		if(what)out[7-i]='1';
 		else out[7-i]='0';
 	}
-	out[9] = 0;
+	out[8] = 0;
 	return out;
 }
 
@@ -71,8 +71,8 @@ int lurk_changeroom(int skt, int mode, int roomnum){
 	}
 	else if(mode == 1){
 		read(skt,&roomnum,2);
-		return roomnum;
 	}
+	return roomnum;
 }
 
 //TYPE 3 FIGHT ONLY USED BY CLIENT
@@ -90,8 +90,8 @@ char* lurk_pvpfight(int skt, int mode, char name[]){
 	}
 	else if(mode == 1){
 		read(skt,name,32);
-		return name;
 	}
+	return name;
 }
 
 //TYPE 5 LOOT
@@ -103,8 +103,8 @@ char* lurk_loot(int skt, int mode, char name[]){
 	}
 	else if(mode == 1){
 		write(skt,name,32);
-		return name;
 	}
+	return name;
 }
 
 //TYPE 6 START ONLY USED BY CLIENT
@@ -144,8 +144,8 @@ int lurk_accept(int skt, int mode,int code){
 	}
 	else if(mode==1){
 		read(skt,&code,1);
-		return code;
 	}
+	return code;
 }
 
 //TYPE 9 ROOM
@@ -261,5 +261,24 @@ void lurk_connection(int skt, int mode, void* pkt){
 		read(skt, &inconnection->name, 32);
 		read(skt, &inconnection->descl, 2);
 		read(skt, &inconnection->desc, inconnection->descl);
+	}
+}
+//TYPE 14 VERSION NOTE: For Lurk 2.2 I think. Meant to describe version compatibility and extentions
+void lurk_version(int skt, int mode, void* pkt){
+	if(mode == 0){
+		struct version* outversion = (struct version*)pkt;
+		int type = 14;
+		write(skt, &type, 1);
+		write(skt, &outversion->majorrev, 1);
+		write(skt, &outversion->minorrev, 1);
+		write(skt, &outversion->extl, 2);
+		write(skt, &outversion->ext, outversion->extl);
+	}	
+	else if(mode == 1){
+		struct version* inversion = (struct version*)pkt;
+		read(skt, &inversion->majorrev, 1);
+		read(skt, &inversion->minorrev, 1);
+		read(skt, &inversion->extl, 2);
+		read(skt, &inversion->ext, inversion->extl);
 	}
 }

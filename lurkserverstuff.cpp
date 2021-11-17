@@ -608,11 +608,13 @@ int Room::getPlayersSize(){
 void Room::checkEnemies(){
 	bool test;
 	for(int i = 0; i<enemies.size(); i++){
-		test = getbit(7,enemies[i]->getFlags());
-		enemies[i]->tryRespawning();
-		if(getbit(7,enemies[i]->getFlags()) == true && test != getbit(7,enemies[i]->getFlags())){
-			for(int k=0; k<players.size();k++){
-				lurk_character(players[k]->getSocket(),0,enemies[i]->getCharStruct());
+		if(getbit(5,enemies[i]->getFlags())){
+			test = getbit(7,enemies[i]->getFlags());
+			enemies[i]->tryRespawning();
+			if(getbit(7,enemies[i]->getFlags()) == true && test != getbit(7,enemies[i]->getFlags())){
+				for(int k=0; k<players.size();k++){
+					lurk_character(players[k]->getSocket(),0,enemies[i]->getCharStruct());
+				}
 			}
 		}
 	}
@@ -649,7 +651,7 @@ Tomb::~Tomb(){
 	
 	struct message tmsg;
 	if(deadplayer->getActive()){
-		std::strcpy(tmsg.sname,"game");
+		std::strcpy(tmsg.sname,"server");
 		std::strcpy(tmsg.rname,deadplayer->getName());
 		std::strcpy(tmsg.msg,"Your tomb has crumbled");
 		lurk_message(deadplayer->getSocket(),0,&tmsg);
